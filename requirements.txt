@@ -4,3 +4,4 @@ requests
 python-dotenv
 loguru
 re
+pydantic-settings
