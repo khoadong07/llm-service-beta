@@ -16,6 +16,14 @@ class InferenceRequest(BaseModel):
     content_input: str
     main_brand: str
 
+class Comment(BaseModel):
+    id: str
+    content: str
+class ContextSentimentRequest(BaseModel):
+    post: str
+    comment: List[Comment]
+
+
 
 class InferenceResponse(BaseModel):
     result: Any

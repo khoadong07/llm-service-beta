@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   llm-service-1:
-    image: "dangkhoa0894/llm-service-fastapi:latest"
+    image: "dangkhoa0894/llm-service-fastapi:v1.0.3"
     container_name: llm-service-1
     environment:
       - SERVICE_NAME=llm-service-1
@@ -51,6 +51,7 @@ services:
       - llm-service-1
       - llm-service-2
       - llm-service-3
+#      - llm-filter-service
     networks:
       llm-network:
         ipv4_address: "192.168.3.5"

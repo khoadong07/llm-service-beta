@@ -96,7 +96,7 @@ def llm_prompt(main_brand, content_input, template):
     ]
 
 
-def contex_prompt(main_brand, content_input):
+def context_prompt(main_brand, content_input):
     prompt = [
         {
             "role": "user",
@@ -159,130 +159,46 @@ def contex_prompt(main_brand, content_input):
                     }
                 ]
             }
-        }
-
-    ]
-
-    sentiment = {
-        "role":"user",
-        "content": ""
-    }
-
-    sample_input = {
-        "content": "NHà tôi có vay bên ngân hàng msb chi nhánh quế võ bắc ninh 1 khoản vay. Hiện giờ nhà tôi muốn tất "
-                   "toán khoản vay nhưng bên ngân hàng bảo chờ xét duyệt ??? Vậy tiền lãi phát sinh trong lúc chờ ai "
-                   "thanh toán ?? Bên ngân hàng cũng không nói rõ phải chờ đến bao giờ. Nhà tôi cứ phải chờ thôi à ?",
-        "id": "123",
-        "comment": [
-            {
-                "id": "1419474048711328_1419476458711087",
-                "content": "Cụ nhà nó lúc vay thì nịnh khach lên nịnh khách xuống. Xong giờ dở trò bố đời mẹ thiên "
-                           "hạ. Muốn trả nợ cũng khó :))"
-            },
-            {
-                "id": "1419474048711328_1419477412044325",
-                "content": "Định mệnh! Lúc đi vay phải nịnh nó,giờ muốn trả phải quỳ lạy nó nữa 😅😅😅"
-            },
-            {
-                "id": "1419474048711328_1419476478711085",
-                "content": "Đỏ MSB ạ 🤣🤣🤣"
-            },
-            {
-                "id": "1419474048711328_1419477158711017",
-                "content": "Gửi số đt của nó lên đây bác."
-            },
-            {
-                "id": "1419474048711328_1419477212044345",
-                "content": "Hỏi được tên nhân viên  ,địa chỉ nơi làm việc  mxh phát triển mình làm đúng theo trình tự "
-                           "thì đảm bảo ngân hàng đấy ngày hôm sau phải xin lỗi bác :))"
-            },
-            {
-                "id": "1419474048711328_1419477708710962",
-                "content": "Lên tận chi nhánh đó. Gặp thẳng giám đốc. Nói chuyện cho ra nhẽ. Rồi cho nó đọc tin nhắn "
-                           "nhân viên nc với khách hàng. 3 mặt 1 lời luôn"
-            },
-            {
-                "id": "1419474048711328_1419477502044316",
-                "content": "Lên thẳng gặp GĐ chi nhánh, ko thì cho cái đơn lên hội sở hoặc VP miền. Sợ xoắn ngay"
-            }
-        ]
-    }
-
-    {
-        "role": "user",
-        "content": "Bạn được yêu cầu phân loại chủ đề và đánh giá sắc thái của bài đăng và các bình luận liên quan "
-                   "đến ngành ngân hàng. Dưới đây là danh sách các chủ đề và sắc thái:\n\n**Chủ đề và Phân loại Chủ "
-                   "đề:**\n\n1. **Products and Services**: Nội dung liên quan đến các sản phẩm và dịch vụ tài chính "
-                   "do ngân hàng cung cấp như tài khoản, khoản vay, thẻ tín dụng, bảo hiểm, và cơ hội đầu tư.\n   - "
-                   "**Credit cards**\n   - **Loan or Mortgage**\n   - **Savings account and Interest rates**\n   - "
-                   "**Investment opportunities**\n   - **Insurance products**\n\n2. **Online Banking and Security**: "
-                   "Nội dung liên quan đến dịch vụ ngân hàng trực tuyến và bảo mật.\n   - **Phishing scams or "
-                   "fraudulent activities**\n   - **Password or login issues**\n   - **Online transaction "
-                   "security**\n   - **Two-factor authentication**\n   - **Mobile banking App**\n   - **Information "
-                   "Leaking**\n   - **Account Recovery and Assistance**\n   - **Updates and Notifications**\n   - "
-                   "**Transaction Failures or Delays**\n\n3. **Branch and ATM Experiences**: Nội dung liên quan đến "
-                   "trải nghiệm tại các chi nhánh và máy ATM.\n   - **Waiting times or queues**\n   - **Friendly or "
-                   "unfriendly staff**\n   - **ATM fees or issues**\n   - **Branch hours or locations**\n   - "
-                   "**Accessibility and disability support**\n\n4. **Financial Advice and Education**: Nội dung liên "
-                   "quan đến quản lý tài chính, đầu tư, tiết kiệm và lập kế hoạch tài chính.\n   - **Budgeting and "
-                   "saving tips**\n   - **Investing and wealth management**\n   - **Credit score and report**\n   - "
-                   "**Financial planning and goals**\n\n5. **Promotions and Offers**: Các chiến lược và sáng kiến để "
-                   "thu hút và giữ chân khách hàng thông qua các ưu đãi tài chính và các chương trình khuyến mãi.\n   "
-                   "- **Discounts or cashback offers**\n   - **Limited-time promotions**\n   - **Loyalty programs**\n "
-                   "  - **Referral incentives**\n   - **Special deals for students or seniors**\n\n**Sắc thái:**\n- "
-                   "POSITIVE\n- NEGATIVE\n- NEUTRAL\n- MIXED\n\n**Ví dụ Input:**\n\n```json\n{\n    \"post\": \"NHà "
-                   "tôi có vay bên ngân hàng msb chi nhánh quế võ bắc ninh 1 khoản vay. Hiện giờ nhà tôi muốn tất "
-                   "toán khoản vay nhưng bên ngân hàng bảo chờ xét duyệt ??? Vậy tiền lãi phát sinh trong lúc chờ ai "
-                   "thanh toán ?? Bên ngân hàng cũng không nói rõ phải chờ đến bao giờ. Nhà tôi cứ phải chờ thôi à "
-                   "?\",\n    \"comment\": [\n        {\n            \"id\": \"1419474048711328_1419476458711087\","
-                   "\n            \"content\": \"Cụ nhà nó lúc vay thì nịnh khach lên nịnh khách xuống. Xong giờ dở "
-                   "trò bố đời mẹ thiên hạ. Muốn trả nợ cũng khó :))\"\n        },\n        {\n            \"id\": "
-                   "\"1419474048711328_1419477412044325\",\n            \"content\": \"Định mệnh! Lúc đi vay phải "
-                   "nịnh nó,giờ muốn trả phải quỳ lạy nó nữa 😅😅😅\"\n        },\n        {\n            \"id\": "
-                   "\"1419474048711328_1419476478711085\",\n            \"content\": \"Đỏ MSB ạ 🤣🤣🤣\"\n        },"
-                   "\n        {\n            \"id\": \"1419474048711328_1419477158711017\",\n            \"content\": "
-                   "\"Gửi số đt của nó lên đây bác.\"\n        },\n        {\n            \"id\": "
-                   "\"1419474048711328_1419477212044345\",\n            \"content\": \"Hỏi được tên nhân viên ,"
-                   "địa chỉ nơi làm việc mxh phát triển mình làm đúng theo trình tự thì đảm bảo ngân hàng đấy ngày "
-                   "hôm sau phải xin lỗi bác :))\"\n        },\n        {\n            \"id\": "
-                   "\"1419474048711328_1419477708710962\",\n            \"content\": \"Lên tận chi nhánh đó. Gặp "
-                   "thẳng giám đốc. Nói chuyện cho ra nhẽ. Rồi cho nó đọc tin nhắn nhân viên nc với khách hàng. 3 mặt "
-                   "1 lời luôn\"\n        },\n        {\n            \"id\": \"1419474048711328_1419477502044316\","
-                   "\n            \"content\": \"Lên thẳng gặp GĐ chi nhánh, ko thì cho cái đơn lên hội sở hoặc VP "
-                   "miền. Sợ xoắn ngay\"\n        }\n    ]\n}\n```\n\n**Yêu cầu:**\n\n1. **Phân loại Chủ đề của bài "
-                   "đăng**:\n   - Xác định chủ đề chính của bài đăng dựa trên nội dung và từ khóa liên quan.\n\n2. "
-                   "**Đánh giá Sắc thái của bài đăng**:\n   - Đánh giá sắc thái của bài đăng (POSITIVE, NEGATIVE, "
-                   "NEUTRAL, MIXED).\n\n3. **Phân loại Chủ đề và Đánh giá Sắc thái của các bình luận đi kèm**:\n   - "
-                   "Đối với mỗi bình luận, xác định chủ đề và đánh giá sắc thái trong ngữ cảnh của bài đăng.\n   - "
-                   "Trích xuất các từ khóa thể hiện sắc thái đi kèm.\n\n**Output Mẫu:**\n\n- **Bài đăng**:\n  - Chủ "
-                   "đề: Loan or Mortgage\n  - Sắc thái: NEGATIVE\n\n- **Bình luận**:\n  - ID: "
-                   "1419474048711328_1419476458711087\n    - Chủ đề: Loan or Mortgage\n    - Sắc thái: NEGATIVE\n    "
-                   "- Từ khóa sắc thái: \"nịnh khach\", \"dở trò\", \"khó\"\n\n  - ID: "
-                   "1419474048711328_1419477412044325\n    - Chủ đề: Loan or Mortgage\n    - Sắc thái: NEGATIVE\n    "
-                   "- Từ khóa sắc thái: \"nịnh\", \"quỳ lạy\"\n\n  - ID: 1419474048711328_1419476478711085\n    - Chủ "
-                   "đề: Loan or Mortgage\n    - Sắc thái: NEUTRAL\n    - Từ khóa sắc thái: \"Đỏ MSB\"\n\n  - ID: "
-                   "1419474048711328_1419477158711017\n    - Chủ đề: Loan or Mortgage\n    - Sắc thái: NEUTRAL\n    - "
-                   "Từ khóa sắc thái: N/A\n\n  - ID: 1419474048711328_1419477212044345\n    - Chủ đề: Loan or "
-                   "Mortgage\n    - Sắc thái: MIXED\n    - Từ khóa sắc thái: \"xin lỗi\"\n\n  - ID: "
-                   "1419474048711328_1419477708710962\n    - Chủ đề: Loan or Mortgage\n    - Sắc thái: NEUTRAL\n    - "
-                   "Từ khóa sắc thái: N/A\n\n  - ID: 1419474048711328_1419477502044316\n    - Chủ đề: Loan or "
-                   "Mortgage\n    - Sắc thái: NEUTRAL\n    - Từ khóa sắc thái: N/A\n\nVới prompt này, bạn có thể nhận "
-                   "định chủ đề và sắc thái của các bài đăng và bình luận một cách rõ ràng và có cấu trúc."
-    }
-
-
-result = {
-    "post": {
-        "sentiment": "",
-        "topic": ""
-        "subtopic": ""
-    },
-    "comment": [
-        {
-            "id": "",
-         "sentiment": "",
-         "keywords": []
         },
-        ...
+        {
+            "role": "user",
+            "content": f"content: \"{content_input}\"\nmain_brand: [\"{main_brand}\"]"
+        },
+
     ]
-}
+
+    return prompt
+
+def context_sentiment(content_input, comment_input):
+    prompt = [{
+        "role": "user",
+        "content": f'''Hãy xem xét và phân tích đoạn văn bản sau:
+        POST: {content_input}
+        COMMENT: {comment_input}
+        Đọc hiểu POST, đánh giá topic và sub topic của post vừa xét trong ngữ cảnh ngành ngân hàng. Sắc thái chính trong Post là gì? Chỉ trả về một trong các giá trị sắc thái như: negative, positive, neutral và mixed. Hãy xem xét thật kỹ càng, nếu không xác định thì hãy trả về rỗng hoặc "" (không được trả lời ngoài lề, lan man).
+        Đối với các Comment, hãy xem xét từng comment thuộc về sắc thái nào, xem xét nó dựa trên ngữ cảnh của post. Xem xét thật kỹ, nếu có thì trả về, không thì trả về "" (không trả lời ngoài các sắc thái được quy ước).
+        Trong phần comment, hãy chỉ ra những từ hoặc cụm từ nào đánh giá sắc thái vừa nhận định, chỉ rút trích từ hoặc cụm từ, không rút trích nguyên câu. Hãy chỉ ra một cách chính xác.
+        Dưới đây là một mẫu kết quả trả về. Hãy trả về kết quả theo định dạng JSON như sau:
+        {{
+            "topic": "",
+            "subtopic": "",
+            "sentiment": "",
+            "comments": [
+                {{
+                    "id": "",
+                    "sentiment": "",
+                    "words": [""]
+                }}
+            ]
+        }}'''
+    }, {
+        "role": "user",
+        "content": "Chắc chắn rằng không bỏ sót bất kỳ comment nào! Đảm bảo rằng kết quả trả về luôn luôn đúng format."
+    }, {
+        "role": "user",
+        "content": "Hãy chắc chắn rằng kết quả trả về luôn luôn là một JSON đúng theo format trong ví dụ."
+    }, {
+        "role": "user",
+        "content": "Nếu bạn gặp bất kỳ lỗi nào, hãy đảm bảo trả về một JSON hợp lệ ngay cả khi không có dữ liệu."
+    }]
+    return prompt
