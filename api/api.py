@@ -1,12 +1,10 @@
-from http.client import HTTPException
-
 from fastapi import APIRouter
 from loguru import logger
 
 from core.context_inference import context_inference
 from core.inference import process_inference
 from helpers.response_template import success, bad_request
-from model.inference_model import InferenceResponse, InferenceRequest, ContextSentimentRequest
+from model.inference_model import InferenceRequest, ContextSentimentRequest
 
 api_router = APIRouter()
 

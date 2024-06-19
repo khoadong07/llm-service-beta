@@ -3,5 +3,4 @@ uvicorn==0.27.0
 requests
 python-dotenv
 loguru
-re
-pydantic-settings
+pydantic-settings==2.3.1
