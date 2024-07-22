@@ -4,3 +4,4 @@ requests
 python-dotenv
 loguru
 pydantic-settings==2.3.1
+transformers
