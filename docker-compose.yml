@@ -14,3 +14,9 @@ services:
       - ./logs-service-1:/app/logs
     ports:
       - 9995:8000
+    networks:
+      - kompa-ai-network
+
+networks:
+  kompa-ai-network:
+    external: true
