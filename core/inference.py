@@ -75,6 +75,33 @@ model = AutoModelForTokenClassification.from_pretrained("NlpHUST/ner-vietnamese-
 nlp = pipeline("ner", model=model, tokenizer=tokenizer)
 
 
+def check_json_response(response):
+    expected_fields = [
+        "sentiment", "severity", "emotion", "polarity", "intensity", "topic", "subtopic",
+        "category", "industry", "subject", "product_type", "angle", "intent", "purpose",
+        "tone", "audience", "mention_mainbrand", "context", "explanation", "spam",
+        "advertisement", "opinion_expressed", "emotional_tone", "feedback_provided",
+        "insight_provided", "entity_recognition"
+    ]
+
+    for field in expected_fields:
+        if field not in response:
+            print(f"Missing field: {field}")
+            return None
+
+    for field in response:
+        if response[field] == "None":
+            response[field] = None
+        elif isinstance(response[field], list):
+            for item in response[field]:
+                if isinstance(item, dict):
+                    for key in item:
+                        if item[key] == "None":
+                            item[key] = None
+
+    return response
+
+
 def general_inference(main_brand, content_input):
     ner_results = nlp(content_input)
 
@@ -106,16 +133,17 @@ def general_inference(main_brand, content_input):
         logger.info(f"Job completed for main_brand: {main_brand}")
 
         response_data = response.json()
-        print(response_data)
         llm_response = response_data['choices'][0]['message']['content']
         if llm_response:
             core = extract_json_from_string(llm_response)
             core.update({'entity_recognition': entity_array})
+
+            validated_core = check_json_response(core)
             result = {
                 "id": response.json()['id'],
                 "created": response.json()['created'],
                 "model": response.json()['model'],
-                "core": core,
+                "core": validated_core,
                 "usage": response.json()['usage']
             }
             return result
@@ -124,3 +152,16 @@ def general_inference(main_brand, content_input):
     else:
         logger.error(f"Failed to process core: {response.text}")
         response.raise_for_status()
+
+
+def retry_general_inference(main_brand, content_input, max_retries=5):
+    for attempt in range(max_retries):
+        print(f"Attempt {attempt + 1}/{max_retries}")
+        result = general_inference(main_brand, content_input)
+        if result.get('core') is not None:
+            return result
+        else:
+            logger.warning("Invalid response, retrying...")
+
+    logger.error("Max retries reached, failed to generate a valid response.")
+    return None

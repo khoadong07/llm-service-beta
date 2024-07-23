@@ -3,3 +3,5 @@ logs/
 __pycache__/
 .env
 .idea
+logs-service-1/
+logs-service-2/
